@@ -85,6 +85,7 @@ export default {
     gap: 10px;
     box-shadow: 0px 2px 4px 2px rgb(0 0 0 / 10%);
     align-items: center;
+    z-index: 3;
 
     p {
       margin: 0;

@@ -67,12 +67,12 @@ export default {
 
       &:first-child {
         width: 80px;
-        z-index: 10;
+        z-index: 2;
       }
       &:last-child {
         width: 250px;
         position: absolute;
-        z-index: 9;
+        z-index: 1;
       }
     }
   }

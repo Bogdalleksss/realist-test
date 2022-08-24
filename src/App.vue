@@ -1,28 +1,69 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <DubaiPage />
+    <div
+      v-show="!loading"
+      :class="$style.loading"
+    >
+      Dubai
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { computed } from 'vue';
+import DubaiPage from './pages/DubaiPage';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: { DubaiPage },
+  provide() {
+    return {
+      loading: computed(() => this.loading),
+    };
+  },
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  mounted() {
+    const interval = setInterval(() => {
+      this.loading = this.checkImages();
+      if (this.loading) clearInterval(interval);
+    }, 50);
+  },
+  methods: {
+    checkImages() {
+      const images = document.querySelectorAll('img');
+      let isLoading = true;
+      images.forEach(image => {
+        if (!image.complete && isLoading) {
+          isLoading = false;
+        }
+      });
+      return isLoading;
+    },
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+<style lang="scss" module>
+.loading {
+  position: absolute;
+  text-transform: uppercase;
+  font-size: 4em;
+  font-weight: 500;
 }
 </style>

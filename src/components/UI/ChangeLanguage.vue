@@ -1,17 +1,18 @@
 <template>
   <div
     :class="$style.language"
-    @mouseleave="isHover = false"
+    @mouseleave="hide"
   >
     <img
+      v-click-outside="hide"
       :class="$style.globe"
       src="@/assets/icons/globe.svg"
       alt="globe"
-      @mouseover="isHover = true"
+      @mouseover="show"
     >
     <Transition>
       <div
-        v-show="isHover"
+        v-show="showLangList"
         :class="$style.select"
       >
         <p
@@ -34,7 +35,7 @@ export default {
   name: 'ChangeLanguage',
   data() {
     return {
-      isHover: false,
+      showLangList: false,
       curLang: 'ru',
       langs: [
         {
@@ -49,6 +50,14 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    hide() {
+      this.showLangList = false;
+    },
+    show() {
+      this.showLangList = true;
+    },
   },
 };
 </script>

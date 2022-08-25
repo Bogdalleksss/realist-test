@@ -1,62 +1,62 @@
 <template>
-  <Transition name="slide-fade">
-    <div
-      v-show="loading"
-      :class="$style.card"
+  <CardWrapper
+    :class="$style.card"
+  >
+    <span
+      :class="$style.cardLabel"
+      :style="{
+        backgroundImage: 'url(https://static.tildacdn.com/tild3962-6330-4034-b264-383438626139/ezgif-2-af3868226f.gif)',
+      }"
     >
-      <span
-        :class="$style.cardLabel"
-        :style="{
-          backgroundImage: 'url(https://static.tildacdn.com/tild3962-6330-4034-b264-383438626139/ezgif-2-af3868226f.gif)',
+      <img
+        src="@/assets/icons/bolt.svg"
+        alt=""
+      >
+      <span>{{ data.label[$i18n.locale] }}</span>
+    </span>
+
+    <div :class="$style.info">
+      <h2>{{ data.title[$i18n.locale] }}</h2>
+      <p>{{ data.description[$i18n.locale] }}</p>
+
+      <a :href="data.link">{{ $t('button.look') }}</a>
+    </div>
+
+    <div :class="$style.images">
+      <img
+        v-for="image in data.images"
+        :key="image.id"
+        :src="image.url"
+        :class="{
+          [$style.map]: isMap
         }"
+        alt=""
+      >
+      <div
+        v-if="isMap"
+        :class="$style.points"
       >
         <img
-          src="@/assets/icons/bolt.svg"
-          alt=""
-        >
-        <span>{{ data.label[$i18n.locale] }}</span>
-      </span>
-
-      <div :class="$style.info">
-        <h2>{{ data.title[$i18n.locale] }}</h2>
-        <p>{{ data.description[$i18n.locale] }}</p>
-
-        <a :href="data.link">{{ $t('button.look') }}</a>
-      </div>
-
-      <div :class="$style.images">
-        <img
-          v-for="image in data.images"
-          :key="image.id"
-          :src="image.url"
-          :class="{
-            [$style.map]: isMap
+          v-for="point in data.points"
+          :key="point.id"
+          :src="getPoint(point.type)"
+          :style="{
+            top: `${point.coords.x}%`,
+            left: `${point.coords.y}%`
           }"
           alt=""
         >
-        <div
-          v-if="isMap"
-          :class="$style.points"
-        >
-          <img
-            v-for="point in data.points"
-            :key="point.id"
-            :src="getPoint(point.type)"
-            :style="{
-              top: `${point.coords.x}%`,
-              left: `${point.coords.y}%`
-            }"
-            alt=""
-          >
-        </div>
       </div>
     </div>
-  </Transition>
+  </CardWrapper>
 </template>
 
 <script>
+import CardWrapper from './CardWrapper';
+
 export default {
   name: 'TopCard',
+  components: { CardWrapper },
   inject: ['loading'],
   props: {
     data: {
@@ -79,23 +79,6 @@ export default {
 
 <style lang="scss" module>
 .card {
-  min-width: 23rem;
-  min-height: 31.3rem;
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, .4);
-  box-shadow: 2px 6px 20px 4px rgb(0 0 0 / 20%);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: 425px) {
-    min-width: 90vw;
-  }
-
-  @media (max-height: 667px) {
-    min-height: 28rem;
-  }
-
   &Label {
     width: 100px;
     border-radius: 50px;
@@ -133,28 +116,6 @@ export default {
 
     @media (max-height: 667px) {
       padding: 15px 10px;
-    }
-
-    h2 {
-      color: #202124;
-      font-size: 32px;
-      font-family: Arial, sans-serif;
-      line-height: 1.12;
-      font-weight: 800;
-      margin: 0;
-
-      @media (max-width: 375px) {
-        font-size: 28px;
-      }
-    }
-
-    p {
-      color: #202124;
-      font-size: 22px;
-      font-family: sans-serif;
-      line-height: 1.2;
-      font-weight: 300;
-      margin: 0;
     }
 
     a {
@@ -205,18 +166,5 @@ export default {
       }
     }
   }
-}
-</style>
-
-<style lang="scss" scoped>
-.slide-fade-enter-active {
-  transition: all .6s ease;
-}
-.slide-fade-leave-active {
-  transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
 }
 </style>

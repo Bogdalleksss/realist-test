@@ -1,5 +1,10 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :style="{
+      height: windowHeight,
+    }"
+  >
     <DubaiPage />
     <div
       v-show="!loading"
@@ -27,6 +32,11 @@ export default {
       loading: false,
     };
   },
+  computed: {
+    windowHeight() {
+      return `${window.innerHeight }px`;
+    },
+  },
   mounted() {
     const interval = setInterval(() => {
       this.loading = this.checkImages();
@@ -51,7 +61,6 @@ export default {
 <style>
 #app {
   width: 100vw;
-  height: 100vh;
 
   display: flex;
   align-items: center;

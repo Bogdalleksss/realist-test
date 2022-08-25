@@ -1,7 +1,6 @@
 <template>
   <MainLayout :class="$style.container">
     <div
-      v-show="loading"
       :class="$style.cards"
     >
       <component
@@ -9,6 +8,11 @@
         v-for="card in cards"
         :key="card.id"
         :data="card"
+        :class="$style.card"
+      />
+      <div
+        v-if="isMobile"
+        :class="$style.mobileSpace"
       />
       <div
         v-if="isMobile"
@@ -330,17 +334,26 @@ export default {
   background: linear-gradient(135deg, rgba(157,193,248,1) 34%, rgba(242,233,216,1) 54%);
 }
 
+.mobileSpace {
+  min-width: 1px;
+  height: 100%;
+}
+
 .cards {
   height: 100%;
   width: 100%;
-  overflow-x: scroll;
   overflow-y: hidden;
+  overflow-x: scroll;
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: flex-start;
   padding-left: calc(50vw - 11.5rem);
   padding-right: 60px;
+
+  @media (max-width: 576px) {
+    padding-right: 0;
+  }
 
   @media (max-width: 425px) {
     padding-left: calc(50vw - 45vw);

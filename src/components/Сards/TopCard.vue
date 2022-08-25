@@ -133,7 +133,7 @@ export default {
       cursor: pointer;
 
       &:hover {
-        transform: scale(1.05);
+        opacity: .6;
       }
     }
 
